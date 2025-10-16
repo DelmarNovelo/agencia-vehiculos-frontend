@@ -1,0 +1,15 @@
+<form [formGroup]="formGroup">
+  <div class="grid grid-cols-1 gap-4">
+    <p-iftalabel>
+      <input pInputText formControlName="nombre" type="text" pSize="small" id="nombre" fluid autocomplete="off"
+        spellcheck="false" placeholder="Ingrese el nombre">
+      <label for="nombre">Nombre *</label>
+      <app-form-control-error [showError]="isFormControlInvalid('nombre')" errorMessage="El nombre es requerido" />
+    </p-iftalabel>
+
+    <div class="flex justify-end">
+      <p-button label="Actualizar Departamento" icon="pi pi-save" type="button" [disabled]="runningTask()"
+        (onClick)="onSubmit()" />
+    </div>
+  </div>
+</form>

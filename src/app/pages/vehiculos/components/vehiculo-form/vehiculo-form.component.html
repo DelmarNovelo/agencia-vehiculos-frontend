@@ -1,0 +1,117 @@
+<form [formGroup]="formGroup()">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <p-iftalabel>
+      <p-select [options]="marcas.value()" formControlName="marcaId" optionLabel="nombre" optionValue="id" fluid
+        inputId="marcaId" checkmark autoOptionFocus [focusOnHover]="false">
+        <ng-template #footer>
+          <div class="flex justify-center mb-1">
+            <p-button label="Nueva marca" outlined type="button" (onClick)="nuevaMarcaDialogo()" />
+          </div>
+        </ng-template>
+      </p-select>
+      <label for="marcaId">Marca</label>
+      <app-form-control-error [showError]="isFormControlInvalid('marcaId')" errorMessage="La marca es requerida" />
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <p-select [options]="lineas()" formControlName="lineaId" optionLabel="nombre" optionValue="id" fluid
+        inputId="lineaId" checkmark autoOptionFocus [focusOnHover]="false">
+        <ng-template #footer>
+          <div class="flex justify-center mb-1">
+            <p-button label="Nueva linea" outlined type="button" (onClick)="nuevaLineaDialogo()" />
+          </div>
+        </ng-template>
+      </p-select>
+      <label for="lineaId">Linea</label>
+      <app-form-control-error [showError]="isFormControlInvalid('lineaId')" errorMessage="La linea es requerida" />
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <p-select [options]="modelos.value()" formControlName="modeloId" optionLabel="nombre" optionValue="id" fluid
+        inputId="modeloId" checkmark autoOptionFocus [focusOnHover]="false">
+        <ng-template #footer>
+          <div class="flex justify-center mb-1">
+            <p-button label="Nuevo modelo" outlined type="button" (onClick)="nuevaModeloDialogo()" />
+          </div>
+        </ng-template>
+      </p-select>
+      <label for="modeloId">Modelo</label>
+      <app-form-control-error [showError]="isFormControlInvalid('modeloId')" errorMessage="El modelo es requerido" />
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <p-select [options]="colores.value()" formControlName="colorId" optionLabel="nombre" optionValue="id" fluid
+        inputId="colorId" checkmark autoOptionFocus [focusOnHover]="false">
+        <ng-template #footer>
+          <div class="flex justify-center mb-1">
+            <p-button label="Nuevo color" outlined type="button" (onClick)="nuevoColorDialogo()" />
+          </div>
+        </ng-template>
+      </p-select>
+      <label for="colorId">Color</label>
+      <app-form-control-error [showError]="isFormControlInvalid('colorId')" errorMessage="El color es requerido" />
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <p-select [options]="combustibles.value()" formControlName="combustibleId" optionLabel="nombre" optionValue="id"
+        fluid inputId="combustibleId" checkmark autoOptionFocus [focusOnHover]="false">
+        <ng-template #footer>
+          <div class="flex justify-center mb-1">
+            <p-button label="Nuevo combustible" outlined type="button" (onClick)="nuevoCombustibleDialogo()" />
+          </div>
+        </ng-template>
+      </p-select>
+      <label for="combustibleId">Combustible</label>
+      <app-form-control-error [showError]="isFormControlInvalid('combustibleId')"
+        errorMessage="El combustible es requerido" />
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <p-select [options]="transmisiones.value()" formControlName="transmisionId" optionLabel="nombre" optionValue="id"
+        fluid inputId="transmisionId" checkmark autoOptionFocus [focusOnHover]="false">
+        <ng-template #footer>
+          <div class="flex justify-center mb-1">
+            <p-button label="Nueva transmisión" outlined type="button" (onClick)="nuevaTransmisionDialogo()" />
+          </div>
+        </ng-template>
+      </p-select>
+      <label for="transmisionId">Transmisión</label>
+      <app-form-control-error [showError]="isFormControlInvalid('transmisionId')"
+        errorMessage="La transmisión es requerida" />
+    </p-iftalabel>
+
+    <div [ngClass]="[incluirPrecioVenta() ? 'col-span-1' : 'col-span-2']">
+      <p-iftalabel>
+        <p-select [options]="tiposVehiculos.value()" formControlName="tipoVehiculoId" optionLabel="nombre"
+          optionValue="id" fluid inputId="tipoVehiculoId" checkmark autoOptionFocus [focusOnHover]="false">
+          <ng-template #footer>
+            <div class="flex justify-center mb-1">
+              <p-button label="Nuevo tipo de vehículo" outlined type="button" (onClick)="nuevoTipoVehiculoDialogo()" />
+            </div>
+          </ng-template>
+        </p-select>
+        <label for="tipoVehiculoId">Tipo de vehículo</label>
+        <app-form-control-error [showError]="isFormControlInvalid('tipoVehiculoId')"
+          errorMessage="El tipo de vehículo es requerido" />
+      </p-iftalabel>
+    </div>
+
+    @if (incluirPrecioVenta()) {
+    <p-iftalabel>
+      <p-inputnumber formControlName="precioVenta" size="small" inputId="precioVenta" fluid [maxFractionDigits]="2"
+        autocomplete="off" spellcheck="false" />
+      <label for="precioVenta">Precio de venta</label>
+      <app-form-control-error [showError]="isFormControlInvalid('precioVenta')"
+        errorMessage="El precio de venta es requerido" />
+    </p-iftalabel>
+    }
+
+    <div class="col-span-1 lg:col-span-2">
+      <p-iftalabel>
+        <textarea pTextarea formControlName="descripcion" autoResize autocomplete="off" spellcheck="false" fluid
+          placeholder="(Opcional)"></textarea>
+        <label for="descripcion">Descripción</label>
+      </p-iftalabel>
+    </div>
+  </div>
+</form>

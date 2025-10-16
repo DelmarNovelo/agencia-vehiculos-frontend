@@ -1,0 +1,65 @@
+<div class="space-y-6">
+  <form [formGroup]="rolFormGroup">
+    <div class="space-y-4">
+      <p-iftalabel>
+        <input pInputText formControlName="nombre" placeholder="Ej: Administrador, Vendedor, etc." fluid
+          autocomplete="off" spellcheck="false" />
+        <label>Nombre del Rol *</label>
+        <app-form-control-error [showError]="isFormControlInvalid('nombre')"
+          errorMessage="El nombre del rol es requerido" />
+      </p-iftalabel>
+
+      <p-iftalabel>
+        <textarea pTextarea formControlName="descripcion" autoResize fluid rows="2"
+          placeholder="Describe las funciones y responsabilidades de este rol..."></textarea>
+        <label>Descripción</label>
+        <app-form-control-error [showError]="isFormControlInvalid('descripcion')"
+          errorMessage="La descripción del rol es requerida" />
+      </p-iftalabel>
+    </div>
+  </form>
+
+  <div class="space-y-4">
+    <div class="flex gap-3">
+      <p-button label="Seleccionar Todos" severity="info" size="small" (onClick)="seleccionarTodos()" />
+      <p-button label="Deseleccionar Todos" severity="secondary" size="small" (onClick)="deseleccionarTodos()" />
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-h-[300px] overflow-y-auto">
+      @for (modulo of modulos.value(); track modulo.id) {
+      <div>
+        <h4 class="font-semibold text-gray-900 mb-2 flex items-center">
+          <i class="pi pi-users text-blue-600 mr-2"></i>
+          {{ modulo.nombre }}
+        </h4>
+
+        <div class="space-y-2">
+          @for (permiso of modulo.permisos; track permiso.id) {
+          <div class="flex items-center gap-1">
+            <p-checkbox [inputId]="'permiso-' + permiso.id" [value]="permiso.id" [(ngModel)]="permisosSeleccionados" />
+            <label [for]="'permiso-' + permiso.id" class="ml-2 text-sm text-gray-700 cursor-pointer">
+              {{ permiso.nombre }}
+            </label>
+          </div>
+          }
+        </div>
+      </div>
+      }
+    </div>
+
+    <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+      <div class="flex items-center justify-between">
+        <span class="text-sm font-medium text-gray-700">
+          Permisos seleccionados: {{ permisosSeleccionados().length }}
+        </span>
+        <span class="text-sm text-gray-500">
+          Total disponible: {{ totalPermisos }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+    <p-button label="Crear Rol" severity="success" size="small" (onClick)="onSubmit()" [loading]="runningTask()" />
+  </div>
+</div>

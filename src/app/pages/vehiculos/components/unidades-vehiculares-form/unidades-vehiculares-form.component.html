@@ -1,0 +1,26 @@
+<div class="flex items-center justify-between mb-4">
+  <h3 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
+    <i class="pi pi-list text-purple-600"></i>
+    Registrar unidades en existencia
+  </h3>
+  <p-button label="Agregar Unidad" icon="pi pi-plus" severity="info" size="small" (onClick)="addFormGroup()" />
+</div>
+
+<form [formGroup]="unidadesFormGroup()">
+  <div class="grid grid-cols-1 gap-4 mt-4" formArrayName="unidades">
+    @for(formGroup of unidadesFormArray.controls; track formGroup.get('vin')?.value + $index) {
+    <div class="grid grid-cols-[1fr_auto] gap-4 items-center" [formGroupName]="$index">
+      <p-iftalabel>
+        <input pInputText formControlName="vin" type="text" pSize="small" id="vin" fluid autocomplete="off"
+          spellcheck="false">
+        <label for="vin">VIN</label>
+        <app-form-control-error [showError]="isFormControlInvalid('vin', $index)" errorMessage="El VIN es requerido" />
+      </p-iftalabel>
+
+      <p-button text rounded icon="pi pi-trash" severity="danger" type="button" (onClick)="removeFormGroup($index)" />
+    </div>
+    } @empty {
+    <app-empty-message mensaje="No se han agregado unidades" icono="pi pi-list" />
+    }
+  </div>
+</form>

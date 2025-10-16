@@ -1,0 +1,28 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div class="grid grid-cols-1 gap-4">
+    <p-iftalabel>
+      <p-select [options]="marcas.value()" formControlName="marcaId" optionLabel="nombre" optionValue="id" fluid
+        inputId="marcaId" checkmark autoOptionFocus [focusOnHover]="false" appendTo="body">
+        <ng-template #footer>
+          <div class="flex justify-center mb-1">
+            <p-button label="Nueva marca" outlined type="button" (onClick)="nuevaMarcaDialogo()" />
+          </div>
+        </ng-template>
+      </p-select>
+      <label for="marcaId">Marca*</label>
+      <app-form-control-error [showError]="isFormControlInvalid('marcaId')" errorMessage="La marca es requerida" />
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <input pInputText formControlName="nombre" type="text" pSize="small" id="nombre" fluid autocomplete="off"
+        spellcheck="false">
+      <label for="nombre">Nombre de la línea*</label>
+      <app-form-control-error [showError]="isFormControlInvalid('nombre')"
+        errorMessage="El nombre de la linea es requerido" />
+    </p-iftalabel>
+
+    <div class="flex justify-end">
+      <p-button label="Guardar linea" icon="pi pi-save" type="submit" [loading]="runningTask()" />
+    </div>
+  </div>
+</form>

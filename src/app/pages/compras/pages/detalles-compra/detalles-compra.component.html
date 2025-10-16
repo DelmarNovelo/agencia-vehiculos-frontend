@@ -1,0 +1,198 @@
+@if (detallesCompra.value(); as compra) {
+<div class="max-w-6xl mx-auto p-6 grid grid-cols-1 gap-4">
+  <!-- Header -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900">Compra #{{ compra.id }}</h1>
+        <p class="text-gray-600 mt-1">Detalles de la transacción de compra</p>
+      </div>
+      <p-badge
+        [value]="compra.tipoCompra"
+        severity="success"
+        class="text-sm px-3 py-1"
+      />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm mt-4">
+      <div class="flex items-center gap-2">
+        <i class="pi pi-calendar text-gray-500"></i>
+        <span class="text-gray-600">Fecha:</span>
+        <span class="font-medium">{{ compra.fecha | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <i class="pi pi-credit-card text-gray-500"></i>
+        <span class="text-gray-600">Método:</span>
+        <span class="font-medium">{{ compra.metodoPago }}</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <i class="pi pi-tag text-gray-500"></i>
+        <span class="text-gray-600">Estado:</span>
+        <span class="font-medium text-green-600">{{ compra.documento.estado }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Proveedor -->
+  <p-card header="Información del Proveedor" class="shadow-sm">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="space-y-3">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+            <i class="pi pi-building text-blue-600 text-xl"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-gray-900">
+              {{ compra.proveedor.razonSocial }}
+            </h3>
+            <p class="text-gray-600">Proveedor #{{ compra.proveedor.id }}</p>
+          </div>
+        </div>
+        <div class="space-y-2 text-sm">
+          <div class="flex items-center gap-2">
+            <i class="pi pi-id-card text-gray-400 w-4"></i>
+            <span class="text-gray-600">NIT:</span>
+            <span class="font-mono">{{ compra.proveedor.nit }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="space-y-3">
+        <h4 class="font-medium text-gray-900">Dirección</h4>
+        <div class="text-sm text-gray-600 space-y-1">
+          <p>{{ compra.proveedor.direccion.calle }}</p>
+          <p>{{ compra.proveedor.direccion.municipio }}, {{ compra.proveedor.direccion.departamento }}</p>
+        </div>
+      </div>
+    </div>
+  </p-card>
+
+  <!-- Vehículos Comprados -->
+  <p-card header="Vehículos Comprados" class="shadow-sm">
+    <div class="space-y-4">
+      @for (item of compra.itemsCompra; track item.vin) {
+      <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors">
+        <div class="flex justify-between items-start mb-3">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+              <i class="pi pi-car text-green-600 text-xl"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-gray-900">
+                {{ item.vehiculo }}
+              </h4>
+              <p class="text-sm text-gray-600">{{ item.tipoVehiculo }}</p>
+            </div>
+          </div>
+          <p-badge value="Comprado" severity="success" />
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+          <div>
+            <span class="text-gray-600">VIN:</span>
+            <p class="font-mono text-xs">{{ item.vin }}</p>
+          </div>
+          <div>
+            <span class="text-gray-600">Color:</span>
+            <p>{{ item.color }}</p>
+          </div>
+          <div>
+            <span class="text-gray-600">Combustible:</span>
+            <p>{{ item.combustible }}</p>
+          </div>
+          <div>
+            <span class="text-gray-600">Transmisión:</span>
+            <p>{{ item.transmision }}</p>
+          </div>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-gray-200 flex justify-between items-center">
+          <div class="text-sm">
+            @if (item.descuento > 0) {
+            <span class="text-gray-600">Precio lista: {{ item.precioCompra | currency:'Q ':'symbol-narrow' }}</span>
+            <br>
+            <span class="text-red-600">Descuento: {{ item.descuento | currency:'Q ':'symbol-narrow' }}</span>
+            }
+          </div>
+          <div class="text-right">
+            <span class="text-lg font-bold text-gray-900">{{ item.precioFinal | currency:'Q ':'symbol-narrow' }}</span>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </p-card>
+
+  <!-- Resumen de Compra -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <p-card header="Resumen de Pago" class="shadow-sm">
+      <div class="space-y-3">
+        <div class="flex justify-between">
+          <span class="text-gray-600">Subtotal:</span>
+          <span class="font-medium text-gray-900">{{ compra.subtotal | currency:'Q ':'symbol-narrow' }}</span>
+        </div>
+        @if (compra.descuento > 0) {
+        <div class="flex justify-between">
+          <span class="text-gray-600">Descuento:</span>
+          <span class="font-medium text-red-600">-{{ compra.descuento | currency:'Q ':'symbol-narrow' }}</span>
+        </div>
+        }
+        <hr class="border-gray-200">
+        <div class="flex justify-between text-lg font-bold">
+          <span>Total:</span>
+          <span class="text-green-600">{{ compra.total | currency:'Q ':'symbol-narrow' }}</span>
+        </div>
+      </div>
+    </p-card>
+
+    <p-card header="Documento de Compra" class="shadow-sm">
+      <div class="space-y-3">
+        <div class="flex justify-between">
+          <span class="text-gray-600">Tipo:</span>
+          <span class="font-medium">{{ compra.documento.tipoDocumento }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Número:</span>
+          <span class="font-mono text-sm">{{ compra.documento.numDocumento }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Fecha Emisión:</span>
+          <span class="text-sm">{{ compra.documento.fechaEmision | date:'dd/MM/yyyy' }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Estado:</span>
+          <p-badge [value]="compra.documento.estado" severity="success" />
+        </div>
+      </div>
+    </p-card>
+  </div>
+
+  <!-- Notas -->
+  @if (compra.notas) {
+  <p-card header="Notas Adicionales" class="shadow-sm">
+    <p class="text-gray-700">{{ compra.notas }}</p>
+  </p-card>
+  }
+
+  <!-- Acciones -->
+  <div class="flex justify-end gap-3">
+    <p-button
+      label="Imprimir Documento"
+      icon="pi pi-print"
+      severity="info"
+      size="small"
+    />
+    <p-button
+      label="Descargar PDF"
+      icon="pi pi-download"
+      severity="success"
+      size="small"
+    />
+  </div>
+</div>
+} @else {
+<div class="flex justify-center items-center min-h-96">
+  <div class="text-center">
+    <i class="pi pi-spin pi-spinner text-4xl text-gray-400 mb-4"></i>
+    <p class="text-gray-600">Cargando detalles de la compra...</p>
+  </div>
+</div>
+}

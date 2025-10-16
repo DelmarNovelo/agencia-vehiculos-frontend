@@ -1,0 +1,14 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div class="grid grid-cols-1 gap-4">
+    <p-iftalabel>
+      <input pInputText formControlName="nombre" type="text" pSize="small" id="nombre" fluid autocomplete="off"
+        spellcheck="false">
+      <label for="nombre">Nombre del color</label>
+      <app-form-control-error [showError]="isFormControlInvalid" errorMessage="El nombre del color es requerido" />
+    </p-iftalabel>
+
+    <div class="flex justify-end">
+      <p-button label="Guardar color" type="submit" />
+    </div>
+  </div>
+</form>

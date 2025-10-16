@@ -1,0 +1,29 @@
+@if (!this.unidadVehicular.isLoading()) {
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div class="grid grid-cols-1 gap-4">
+    <div class="flex justify-center flex-wrap gap-4">
+      <div class="flex items-center">
+        <p-radiobutton formControlName="disponible" [value]="true" inputId="disponible" />
+        <label for="disponible" class="ml-2">Disponible</label>
+      </div>
+
+      <div class="flex items-center">
+        <p-radiobutton formControlName="disponible" [value]="false" inputId="no_disponible" />
+        <label for="no_disponible" class="ml-2">No disponible</label>
+      </div>
+    </div>
+
+    <p-iftalabel>
+      <input pInputText formControlName="vin" type="text" fluid autocomplete="off" spellcheck="false">
+      <label for="vin">VIN</label>
+      <app-form-control-error [showError]="isFormControlInvalid" errorMessage="El VIN es requerido" />
+    </p-iftalabel>
+
+    <div class="flex justify-end">
+      <p-button label="Actualizar" icon="pi pi-check" type="submit" [disabled]="runningTask()" />
+    </div>
+  </div>
+</form>
+} @else {
+<app-loading />
+}

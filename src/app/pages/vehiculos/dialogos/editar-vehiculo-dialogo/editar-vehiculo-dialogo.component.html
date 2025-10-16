@@ -1,0 +1,11 @@
+@if (!vehiculo.isLoading()) {
+<app-vehiculo-form [formGroup]="formGroup" [initialMarcaId]="vehiculo.value()?.marcaId ?? null"
+  [incluirPrecioVenta]="false" />
+
+<div class="flex justify-end mt-4">
+  <p-button label="Actualizar Vehículo" icon="pi pi-check" type="button" (onClick)="onSubmit()"
+    [disabled]="runningTask()" />
+</div>
+} @else {
+<app-loading />
+}

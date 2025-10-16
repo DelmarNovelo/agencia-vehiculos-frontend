@@ -1,0 +1,53 @@
+import { Component, inject, OnDestroy, signal } from '@angular/core';
+import { TipoVehiculoService } from '../../services/tipo-vehiculo.service';
+import { Button } from 'primeng/button';
+import { TableModule } from 'primeng/table';
+import { Subject, takeUntil } from 'rxjs';
+import { BasicSearchFormComponent } from '../../../../shared/components/basic-search-form/basic-search-form.component';
+import { TableTitleComponent } from '../../../../shared/components/table-title/table-title.component';
+import { EmptyMessageComponent } from '../../../../shared/components/empty-message/empty-message.component';
+
+@Component({
+  selector: 'app-lista-tipos-vehiculos',
+  imports: [
+    BasicSearchFormComponent,
+    TableTitleComponent,
+    EmptyMessageComponent,
+    TableModule,
+    Button,
+  ],
+  templateUrl: './lista-tipos-vehiculos.component.html',
+  styles: ``
+})
+export default class ListaTiposVehiculosComponent implements OnDestroy {
+
+  private unsubscribe$ = new Subject<void>();
+
+  private tipoVehiculoService = inject(TipoVehiculoService);
+
+  searchTerm = signal('');
+
+  tiposVehiculos = this.tipoVehiculoService.fetchAll(this.searchTerm);
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
+  nuevoTipoVehiculoDialogo() {
+    const dialogRef = this.tipoVehiculoService.nuevoTipoVehiculoDialogo();
+    dialogRef.onClose.pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => this.tiposVehiculos.reload());
+  }
+
+  editarTipoVehiculoDialogo(tipoVehiculoId: number) {
+    const dialogRef = this.tipoVehiculoService.editarTipoVehiculoDialogo(tipoVehiculoId);
+    dialogRef.onClose.pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => this.tiposVehiculos.reload());
+  }
+
+  removeTipoVehiculo(tipoVehiculoId: number) {
+    this.tipoVehiculoService.remove(tipoVehiculoId).subscribe(() => this.tiposVehiculos.reload());
+  }
+
+}

@@ -1,0 +1,51 @@
+@if (!detallesDireccion.isLoading()) {
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div class="grid grid-cols-1 gap-4">
+    <p-iftalabel>
+      <input pInputText formControlName="calle" type="text" pSize="small" id="calle" fluid autocomplete="off"
+        spellcheck="false" placeholder="Dirección completa">
+      <label for="calle">Dirección</label>
+      <app-form-control-error [showError]="isFormControlInvalid('calle')" errorMessage="La dirección es requerida" />
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <p-select formControlName="departamentoId" [options]="departamentos.value()" optionLabel="nombre" optionValue="id"
+        id="departamento" fluid placeholder="Seleccione un departamento" checkmark autoOptionFocus
+        [focusOnHover]="false" appendTo="body">
+        <ng-template #footer>
+          <div class="flex justify-center mb-1">
+            <p-button label="Nuevo departamento" icon="pi pi-plus" outlined type="button"
+              (onClick)="nuevoDepartamento()" />
+          </div>
+        </ng-template>
+      </p-select>
+      <label for="departamento">Departamento</label>
+      <app-form-control-error [showError]="isFormControlInvalid('departamentoId')"
+        errorMessage="Debe seleccionar un departamento" />
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <p-select formControlName="municipioId" [options]="municipios.value()" optionLabel="nombre" optionValue="id"
+        pSize="small" id="municipio" fluid placeholder="Seleccione un municipio" checkmark autoOptionFocus
+        [focusOnHover]="false" appendTo="body">
+        <ng-template #footer>
+          @if (departamentoId() > 0) {
+          <div class="flex justify-center mb-1">
+            <p-button label="Nuevo municipio" icon="pi pi-plus" outlined type="button" (onClick)="nuevoMunicipio()" />
+          </div>
+          }
+        </ng-template>
+      </p-select>
+      <label for="municipio">Municipio</label>
+      <app-form-control-error [showError]="isFormControlInvalid('municipioId')"
+        errorMessage="Debe seleccionar un municipio" />
+    </p-iftalabel>
+
+    <div class="flex justify-end">
+      <p-button label="Actualizar dirección" size="small" type="submit" [disabled]="runningTask()" />
+    </div>
+  </div>
+</form>
+} @else {
+<app-loading />
+}

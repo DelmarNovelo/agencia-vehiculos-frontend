@@ -1,0 +1,35 @@
+@if (!detallesCliente.isLoading()) {
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div class="grid grid-cols-1 gap-4">
+    <p-iftalabel>
+      <input pInputText formControlName="nombre" fluid size="small" autocomplete="off" spellcheck="false" />
+      <label>Nombre</label>
+      <app-form-control-error [showError]="isFormControlInvalid('nombre')" errorMessage="El nombre es requerido" />
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <input pInputText formControlName="apellido" fluid size="small" autocomplete="off" spellcheck="false" />
+      <label>Apellido</label>
+      <app-form-control-error [showError]="isFormControlInvalid('apellido')" errorMessage="El apellido es requerido" />
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <input pInputText formControlName="dpi" fluid size="small" autocomplete="off" spellcheck="false" />
+      <label>DPI</label>
+      <app-form-control-error [showError]="isFormControlInvalid('dpi')" errorMessage="El DPI es requerido" />
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <input pInputText formControlName="nit" fluid size="small" autocomplete="off" spellcheck="false" />
+      <label>NIT</label>
+      <app-form-control-error [showError]="isFormControlInvalid('nit')" errorMessage="El NIT es requerido" />
+    </p-iftalabel>
+
+    <div class="flex justify-end">
+      <p-button label="Actualizar información" icon="pi pi-check" size="small" type="submit" [disabled]="runningTask()" />
+    </div>
+  </div>
+</form>
+} @else {
+<app-loading />
+}

@@ -1,0 +1,47 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div class="grid grid-cols-1 gap-4">
+    <p-iftalabel>
+      <input pInputText formControlName="nombreMarca" type="text" pSize="small" id="nombreMarca" fluid
+        autocomplete="off" spellcheck="false">
+      <label for="nombreMarca">Nombre de la marca</label>
+      <app-form-control-error [showError]="marcaError" errorMessage="El nombre de la marca es requerido" />
+    </p-iftalabel>
+
+    <div class="px-0 md:px-4 justify-between flex items-center">
+      <b>Agregar lineas a la marca</b>
+      <p-button text rounded icon="pi pi-plus" type="button" (onClick)="agregarLinea()" />
+    </div>
+
+    <ng-container formArrayName="lineas">
+      @for(formGroup of lineaFormArray.controls; track formGroup.get('nombreLinea')?.value + $index) {
+      <div [formGroupName]="$index" (contextmenu)="onContextMenu($event, $index)">
+        <div class="grid grid-cols-[1fr_auto] items-center gap-2">
+          <p-iftalabel>
+            <input pInputText formControlName="nombreLinea" type="text" pSize="small" id="nombreLinea" fluid
+              autocomplete="off" spellcheck="false">
+            <label for="nombreLinea">Nombre de la línea</label>
+            <app-form-control-error [showError]="getFormControlError('nombreLinea', $index)"
+              errorMessage="El nombre de la línea es requerido" />
+          </p-iftalabel>
+
+          <p-button text rounded icon="pi pi-trash" severity="danger" type="button" (onClick)="removerLinea($index)" />
+        </div>
+      </div>
+      }
+
+      <p-contextMenu #cm [model]="menuItems" (onHide)="selectedIndexMenu.set(null)" appendTo="body">
+        <ng-template #item let-item>
+          <a pRipple class="flex items-center p-contextmenu-item-link">
+            <i [class]="item.icon"></i>
+            <span class="ml-2">{{ item.label }}</span>
+          </a>
+        </ng-template>
+      </p-contextMenu>
+
+    </ng-container>
+
+    <div class="flex justify-end">
+      <p-button label="Guardar marca" type="submit" />
+    </div>
+  </div>
+</form>

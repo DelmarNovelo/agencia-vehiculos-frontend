@@ -1,0 +1,166 @@
+<div class="max-w-10xl mx-auto px-4 space-y-6">
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900">
+          {{ detallesCliente.value()?.persona?.nombre }} {{ detallesCliente.value()?.persona?.apellido }}
+        </h1>
+        <p class="text-gray-600 mt-1">Cliente #{{ detallesCliente.value()?.id }}</p>
+      </div>
+      <div class="flex gap-3">
+        <p-button label="Editar Cliente" icon="pi pi-pencil" severity="info" size="small" (onClick)="editarCliente()" />
+        <p-button label="Eliminar Cliente" icon="pi pi-trash" severity="danger" size="small" [disabled]="runningTask()"
+          (onClick)="eliminarCliente()" />
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 space-y-6">
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+              <i class="pi pi-user text-blue-600 text-lg"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-900">Información Personal</h2>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+              <p class="text-gray-900 bg-gray-50 px-3 py-2 rounded-lg">{{ detallesCliente.value()?.persona?.nombre }}
+              </p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Apellido</label>
+              <p class="text-gray-900 bg-gray-50 px-3 py-2 rounded-lg">{{ detallesCliente.value()?.persona?.apellido }}
+              </p>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">DPI</label>
+              <p class="text-gray-900 bg-gray-50 px-3 py-2 rounded-lg">{{ detallesCliente.value()?.persona?.dpi || 'No especificado' }}</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">NIT</label>
+              <p class="text-gray-900 bg-gray-50 px-3 py-2 rounded-lg">{{ detallesCliente.value()?.persona?.nit || 'No especificado' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+              <i class="pi pi-map-marker text-green-600 text-lg"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-900">Dirección</h2>
+          </div>
+          <p-button label="Editar Dirección" icon="pi pi-pencil" severity="success" size="small"
+            (onClick)="editarDireccion()" />
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Dirección</label>
+            <p class="text-gray-900 bg-gray-50 px-3 py-2 rounded-lg">{{ detallesCliente.value()?.direccion?.calle }}
+            </p>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Municipio</label>
+              <p class="text-gray-900 bg-gray-50 px-3 py-2 rounded-lg">{{
+                detallesCliente.value()?.direccion?.municipio }}</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Departamento</label>
+              <p class="text-gray-900 bg-gray-50 px-3 py-2 rounded-lg">{{
+                detallesCliente.value()?.direccion?.departamento }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+              <i class="pi pi-phone text-purple-600 text-lg"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-900">Contactos</h2>
+          </div>
+          <p-button label="Agregar Contacto" icon="pi pi-plus" severity="help" size="small"
+            (onClick)="agregarContacto()" />
+        </div>
+
+        <div *ngIf="contactos()?.length; else noContactos">
+          <div class="space-y-3">
+            <div *ngFor="let contacto of contactos()"
+              class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div class="flex items-center gap-3">
+                <!-- <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                  <i
+                    class="pi pi-{{ contacto.tipoContacto === 'Telefono' ? 'phone' : 'envelope' }} text-purple-600 text-sm"></i>
+                </div> -->
+                <div>
+                  <p class="font-medium text-gray-900">{{ contacto.valorContacto }}</p>
+                  <p class="text-sm text-gray-600">{{ contacto.tipoContacto }}</p>
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <p-button icon="pi pi-pencil" severity="info" size="small" text (onClick)="editarContacto(contacto.id)" />
+                <p-button icon="pi pi-trash" severity="danger" size="small" text
+                  (onClick)="eliminarContacto(contacto.id)" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noContactos>
+          <div class="text-center py-8">
+            <i class="pi pi-phone text-gray-400 text-3xl mb-3"></i>
+            <p class="text-gray-500">No hay contactos registrados</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="space-y-6">
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+            <i class="pi pi-shopping-cart text-orange-600 text-lg"></i>
+          </div>
+          <h2 class="text-xl font-semibold text-gray-900">Historial de Compras</h2>
+        </div>
+
+        <div class="space-y-4">
+           @for (vehiculo of ventasCliente.value()?.vehiculos; track $index) {
+            <div class="border border-gray-200 rounded-lg p-4">
+              <div class="flex justify-between items-start mb-2">
+                <h3 class="font-medium text-gray-900">{{ vehiculo.vehiculo }}</h3>
+                <span class="text-sm text-gray-500">{{ vehiculo.fecha | date:'dd/MM/yyyy' }}</span>
+              </div>
+              <p class="text-sm text-gray-600 mb-2">VIN: {{ vehiculo.vin }}</p>
+              <div class="flex justify-between items-center">
+                <span class="text-lg font-bold text-green-600">{{ vehiculo.precioFinal | currency:'Q ':'symbol-narrow' }}</span>
+                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">{{ vehiculo.estadoFactura }}</span>
+              </div>
+            </div>
+           }
+          
+        <div class="mt-6 pt-4 border-t border-gray-200">
+          <div class="flex justify-between items-center">
+            <span class="font-medium text-gray-900">Total Comprado:</span>
+            <span class="text-xl font-bold text-green-600"> {{ ventasCliente.value()?.totalCompras | currency: 'Q ':'symbol-narrow' }} </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

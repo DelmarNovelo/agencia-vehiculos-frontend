@@ -1,0 +1,23 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div class="grid grid-cols-1 gap-4">
+    <p-iftalabel>
+      <p-datepicker formControlName="vigenteDesde" fluid size="small" [iconDisplay]="'input'" [showIcon]="true"
+        inputId="icondisplay" appendTo="body" />
+      <label for="vigenteDesde">Vigente desde</label>
+      <app-form-control-error [showError]="isFormControlInvalid('vigenteDesde')" errorMessage="La fecha es requerida" />
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <p-inputnumber formControlName="precioBase" size="small" inputId="precioBase" fluid [maxFractionDigits]="2"
+        autocomplete="off" spellcheck="false" />
+      <label for="precioBase">Precio Base</label>
+      <app-form-control-error [showError]="isFormControlInvalid('precioBase')"
+        errorMessage="El precio base es requerido" />
+    </p-iftalabel>
+
+    <div class="flex justify-end mt-4">
+      <p-button label="Guardar Precio de Venta" icon="pi pi-check" size="small" type="submit"
+        [disabled]="runningTask()" />
+    </div>
+  </div>
+</form>

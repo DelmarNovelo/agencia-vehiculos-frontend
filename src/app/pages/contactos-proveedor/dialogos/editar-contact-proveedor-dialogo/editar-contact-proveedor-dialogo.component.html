@@ -1,0 +1,32 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div class="grid grid-cols-1 gap-4">
+    <p-iftalabel>
+      <input pInputText formControlName="cargo" type="text" pSize="small" id="cargo" fluid
+        autocomplete="off" spellcheck="false" placeholder="Cargo">
+      <label for="cargo">Cargo</label>
+      <app-form-control-error [showError]="isFormControlInvalid('cargo')"
+        errorMessage="El cargo es requerido" />
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <input pInputText formControlName="nombre" type="text" pSize="small" id="nombre" fluid
+        autocomplete="off" spellcheck="false" placeholder="Nombre">
+      <label for="nombre">Nombre</label>
+      <app-form-control-error [showError]="isFormControlInvalid('nombre')"
+        errorMessage="El nombre es requerido" />
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <input pInputText formControlName="apellido" type="text" pSize="small" id="apellido" fluid
+        autocomplete="off" spellcheck="false" placeholder="Apellido">
+      <label for="apellido">Apellido</label>
+      <app-form-control-error [showError]="isFormControlInvalid('apellido')"
+        errorMessage="El apellido es requerido" />
+    </p-iftalabel>
+
+    <div class="flex justify-end">
+      <p-button label="Actualiar" icon="pi pi-check" size="small" type="submit"
+        [loading]="runningTask()" />
+    </div>
+  </div>
+</form>

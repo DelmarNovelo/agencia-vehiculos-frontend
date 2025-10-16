@@ -1,0 +1,39 @@
+<form [formGroup]="formGroup">
+  <div class="grid grid-cols-1 gap-4">
+    <p-iftalabel>
+      <input pInputText formControlName="nombre" type="text" pSize="small" id="nombre" fluid autocomplete="off"
+        spellcheck="false" placeholder="Ingrese el nombre">
+      <label for="nombre">Nombre *</label>
+      <app-form-control-error [showError]="isFormControlInvalid('nombre')" errorMessage="El nombre es requerido" />
+    </p-iftalabel>
+
+    <div class="px-0 md:px-4 justify-between flex items-center">
+      <b>Agregar municipios al departamento</b>
+      <p-button text rounded icon="pi pi-plus" type="button" (onClick)="agregarMunicipio()" />
+    </div>
+
+    <ng-container formArrayName="municipios">
+      @for(formGroup of municipioFormArray.controls; track formGroup.get('nombreMunicipio')?.value + $index) {
+      <div [formGroupName]="$index">
+        <div class="grid grid-cols-[1fr_auto] items-center gap-2">
+          <p-iftalabel>
+            <input pInputText formControlName="nombreMunicipio" type="text" pSize="small" id="nombreMunicipio" fluid
+              autocomplete="off" spellcheck="false">
+            <label for="nombreMunicipio">Nombre del municipio</label>
+            <app-form-control-error [showError]="getFormControlError('nombreMunicipio', $index)"
+              errorMessage="El nombre del municipio es requerido" />
+          </p-iftalabel>
+
+          <p-button text rounded icon="pi pi-trash" severity="danger" type="button"
+            (onClick)="removerMunicipio($index)" />
+        </div>
+      </div>
+      }
+    </ng-container>
+
+    <div class="flex justify-end">
+      <p-button label="Crear Departamento" icon="pi pi-save" type="button" [disabled]="runningTask()"
+        (onClick)="onSubmit()" />
+    </div>
+  </div>
+</form>

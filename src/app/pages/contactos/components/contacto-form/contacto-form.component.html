@@ -1,0 +1,31 @@
+<form [formGroup]="formGroup()">
+  <div class="grid grid-cols-1 gap-4" formArrayName="contactos">
+    @for (formGroup of contactosFormArray.controls; track formGroup.get('tipoContactoId')?.value + $index) {
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" [formGroupName]="$index">
+      <p-iftalabel>
+        <p-select formControlName="tipoContactoId" [options]="tiposContacto.value()" optionLabel="nombre"
+          optionValue="id" id="tipoContacto" fluid placeholder="Seleccione un tipo de contacto" checkmark
+          autoOptionFocus [focusOnHover]="false" appendTo="body">
+          <ng-template #footer>
+            <div class="flex justify-center mb-1">
+              <p-button label="Nuevo tipo de contacto" icon="pi pi-plus" outlined type="button"
+                (onClick)="nuevoTipoContacto($index)" />
+            </div>
+          </ng-template>
+        </p-select>
+        <label for="tipoContacto">Tipo de contacto</label>
+        <app-form-control-error [showError]="isFormControlInvalid($index, 'tipoContactoId')"
+          errorMessage="El tipo de contacto es requerido" />
+      </p-iftalabel>
+
+      <p-iftalabel>
+        <input pInputText formControlName="valorContacto" pSize="small" id="valorContacto" fluid autocomplete="off"
+          spellcheck="false">
+        <label for="valorContacto">Valor de contacto</label>
+        <app-form-control-error [showError]="isFormControlInvalid($index, 'valorContacto')"
+          errorMessage="El valor de contacto es requerido" />
+      </p-iftalabel>
+    </div>
+    }
+  </div>
+</form>

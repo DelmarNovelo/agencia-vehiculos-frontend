@@ -1,0 +1,4 @@
+<p-autocomplete [suggestions]="suggestions()" fluid [placeholder]="placeholder()" [delay]="350"
+  (completeMethod)="onCompleteMethod.emit($event.query)" optionValue="nada" optionLabel="label"
+  (onSelect)="onSelect.emit($event.value)" autocomplete="off" spellcheck="false">
+</p-autocomplete>

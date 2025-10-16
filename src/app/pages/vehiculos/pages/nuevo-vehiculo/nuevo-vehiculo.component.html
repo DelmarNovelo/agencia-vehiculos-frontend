@@ -1,0 +1,20 @@
+<div class="w-full xl:w-20/24 m-auto">
+  <p-card>
+    <ng-template #title>
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-3">
+          <i class="pi pi-car text-2xl text-blue-600"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Crear Vehiculo</h2>
+        </div>
+
+        <p-button label="Guardar vehículo" icon="pi pi-save" type="button" (onClick)="onSubmit()" />
+      </div>
+    </ng-template>
+
+    <div class="mb-6">
+      <app-vehiculo-form [formGroup]="formGroup" />
+    </div>
+
+    <!-- <app-unidades-vehiculares-form [unidadesFormGroup]="unidadesFormGroup" /> -->
+  </p-card>
+</div>

@@ -1,0 +1,16 @@
+<!-- <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 my-4"> -->
+<div class="flex flex-col items-end gap-2">
+  <div>
+    @if (showButton()) {
+    <p-button [label]="buttonText()" size="small" type="button" (onClick)="onClick$.emit()" />
+    }
+  </div>
+
+  <p-inputgroup>
+    <input pInputText [formControl]="searchTermFormControl" pSize="small" placeholder="Buscar..." autocomplete="off"
+      spellcheck="false" />
+    <p-inputgroup-addon>
+      <p-button text icon="pi pi-search" severity="secondary" />
+    </p-inputgroup-addon>
+  </p-inputgroup>
+</div>

@@ -1,0 +1,13 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div class="grid grid-cols-1 gap-4">
+    <p-iftalabel>
+      <input pInputText formControlName="vin" type="text" fluid autocomplete="off" spellcheck="false">
+      <label for="vin">VIN</label>
+      <app-form-control-error [showError]="isFormControlInvalid" errorMessage="El VIN es requerido" />
+    </p-iftalabel>
+
+    <div class="flex justify-end">
+      <p-button label="Guardar" icon="pi pi-save" type="submit" [disabled]="runningTask()" />
+    </div>
+  </div>
+</form>

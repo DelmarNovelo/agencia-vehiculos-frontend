@@ -1,0 +1,77 @@
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+  <div class="px-6 py-4 border-b border-gray-200">
+    <div class="flex justify-between items-start gap-2">
+      <app-table-title title="Lista de Compras"
+        subtitle="{{ compras.value().length }} compra{{ compras.value().length !== 1 ? 's' : '' }}" />
+      <app-basic-search-form [showButton]="true" buttonText="Nueva Compra" (onClick)="nuevaCompra()"
+        (onSearch)="searchTerm.set($event)" />
+    </div>
+  </div>
+
+  @if (compras.value().length > 0) {
+  <div class="overflow-x-auto">
+    <p-table [value]="compras.value()" styleClass="p-datatable-sm" responsiveLayout="scroll">
+      <ng-template #header>
+        <tr class="bg-gray-50">
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No. Doc.</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Proveedor</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo de Compra</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Método de Pago</th>
+          <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+          <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-compra>
+        <tr class="hover:bg-gray-50 transition-colors duration-150">
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+            #{{ compra.id }}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+            {{ compra.numDocumento }}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+            <div class="flex items-center">
+              <i class="pi pi-calendar text-gray-400 mr-2"></i>
+              {{ compra.fecha | date:'dd/MM/yyyy HH:mm' }}
+            </div>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+            <div class="flex items-center">
+              <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                <i class="pi pi-user text-blue-600 text-sm"></i>
+              </div>
+              {{ compra.proveedor }}
+            </div>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+              {{ compra.tipoCompra }}
+            </span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+              {{ compra.metodoPago }}
+            </span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-semibold text-gray-900">
+            {{ compra.total | currency:'Q ':'symbol-narrow':'1.2-2' }}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-center">
+            <div class="flex justify-center gap-1">
+              <p-button icon="pi pi-eye" severity="info" size="small" text rounded pTooltip="Ver detalles"
+                tooltipPosition="top" [routerLink]="['/panel/compras/detalles', compra.id]" />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  } @else {
+  <app-empty-message mensaje="No hay compras registradas" descripcion="Comienza registrando tu primera compra."
+    icono="pi pi-shopping-cart" />
+  }
+</div>

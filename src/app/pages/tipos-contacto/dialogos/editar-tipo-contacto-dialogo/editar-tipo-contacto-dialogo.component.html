@@ -1,0 +1,18 @@
+@if (!this.tipoContactoDetalles.isLoading()) {
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div class="grid grid-cols-1 gap-4">
+    <p-iftalabel>
+      <input pInputText formControlName="nombre" type="text" pSize="small" id="nombre" fluid autocomplete="off"
+        spellcheck="false">
+      <label for="nombre">Nombre del tipo de contacto</label>
+      <app-form-control-error [showError]="isFormControlInvalid" errorMessage="El tipo de contacto es requerido" />
+    </p-iftalabel>
+
+    <div class="flex justify-end">
+      <p-button label="Actualizar tipo de contacto" type="submit" />
+    </div>
+  </div>
+</form>
+} @else {
+<app-loading />
+}

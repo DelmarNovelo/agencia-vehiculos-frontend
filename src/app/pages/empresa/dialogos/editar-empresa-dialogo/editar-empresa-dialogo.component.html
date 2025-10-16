@@ -1,0 +1,22 @@
+<form [formGroup]="formGroup" (ngSubmit)="update()">
+  <div class="space-y-4">
+    <p-iftalabel>
+      <input pInputText formControlName="razonSocial" type="text" pSize="small" id="razonSocial" fluid
+        autocomplete="family-name" spellcheck="false" placeholder="Ingrese el razonSocial">
+      <label for="razonSocial">razonSocial *</label>
+      <app-form-control-error [showError]="isFormControlInvalid('razonSocial')"
+        errorMessage="La razon social es requerida" />
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <input pInputText formControlName="nit" type="text" pSize="small" id="nit" fluid autocomplete="off"
+        spellcheck="false" placeholder="Número de NIT (Opcional)">
+      <label for="nit">NIT</label>
+      <app-form-control-error [showError]="isFormControlInvalid('nit')" errorMessage="El NIT es requerido" />
+    </p-iftalabel>
+
+    <div class="flex justify-end">
+      <p-button label="Actualizar" icon="pi pi-check" size="small" type="submit" [loading]="runningTask()" />
+    </div>
+  </div>
+</form>

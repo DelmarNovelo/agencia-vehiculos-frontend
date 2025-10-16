@@ -1,0 +1,132 @@
+@if (detallesVehiculo.value(); as vehiculo) {
+<p-card class="shadow-lg">
+  <ng-template #title>
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-3">
+        <i class="pi pi-car text-2xl text-blue-600"></i>
+        <h2 class="text-2xl font-bold text-gray-800">Detalles del Vehículo</h2>
+      </div>
+      <div class="flex gap-2">
+        <p-button label="Editar Precio de Venta" icon="pi pi-pencil" severity="secondary" size="small"
+          (onClick)="editarPrecioVenta()" />
+        <p-button label="Nuevo Precio de Venta" icon="pi pi-plus" severity="secondary" size="small"
+          (onClick)="nuevoPrecioVenta()" />
+        <p-button label="Editar Vehículo" icon="pi pi-pencil" severity="info" size="small"
+          (onClick)="editarVehiculoDialogo()" />
+        <p-button label="Eliminar Vehículo" icon="pi pi-trash" severity="danger" size="small" [disabled]="runingTask()"
+          (onClick)="eliminarVehiculo()" />
+      </div>
+    </div>
+  </ng-template>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="bg-gray-50 p-4 rounded-lg">
+      <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center gap-2">
+        <i class="pi pi-info-circle text-blue-500"></i>
+        Información General
+      </h3>
+      <div class="grid grid-cols-1 gap-2">
+        <app-property label="ID:" value="{{ vehiculo.id }}" />
+        <app-property label="Precio de venta:" value="{{ vehiculo.precioVenta | currency: 'Q ': 'symbol-narrow' }}" />
+        <app-property label="Descripción:" value="{{ vehiculo.descripcion || 'N/A' }}" />
+      </div>
+    </div>
+
+    <div class="bg-blue-50 p-4 rounded-lg">
+      <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center gap-2">
+        <i class="pi pi-cog text-blue-500"></i>
+        Especificaciones
+      </h3>
+      <div class="grid grid-cols-1 gap-2">
+        <app-property label="Marca:" value="{{ vehiculo.marca }}" />
+        <app-property label="Línea:" value="{{ vehiculo.linea }}" />
+        <app-property label="Modelo:" value="{{ vehiculo.modelo }}" />
+      </div>
+    </div>
+
+    <div class="bg-green-50 p-4 rounded-lg">
+      <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center gap-2">
+        <i class="pi pi-check-circle text-green-500"></i>
+        Características
+      </h3>
+      <div class="grid grid-cols-1 gap-2">
+        <app-property label="Color:" value="{{ vehiculo.color }}" />
+        <app-property label="Combustible:" value="{{ vehiculo.combustible }}" />
+        <app-property label="Transmisión:" value="{{ vehiculo.transmision }}" />
+        <app-property label="Tipo:" value="{{ vehiculo.tipoVehiculo }}" />
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-8">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
+        <i class="pi pi-list text-purple-600"></i>
+        Unidades Vehiculares
+      </h3>
+      <p-button label="Registrar Nueva Unidad" icon="pi pi-plus" severity="success" size="small" type="button"
+        (onClick)="crearUnidadVehicularDialogo()" />
+    </div>
+
+    @if (unidadesVehiculares.value(); as unidades) {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      @for (unidad of unidades; track unidad.id) {
+      <div class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <i class="pi pi-tag text-purple-500"></i>
+            <span class="font-medium text-gray-700">Unidad #{{ unidad.id }}</span>
+          </div>
+          <div class="flex gap-1">
+            <p-button icon="pi pi-pencil" severity="info" size="small" text rounded
+              (onClick)="editarUnidadVehicular(unidad.id)" />
+            <p-button icon="pi pi-trash" severity="danger" size="small" text rounded
+              (onClick)="eliminarUnidadVehicular(unidad.id)" />
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="flex justify-between">
+            <span class="text-sm text-gray-600">VIN:</span>
+            <span class="text-sm font-mono bg-gray-100 px-2 py-1 rounded">{{ unidad.vin }}</span>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+    } @else {
+    <div class="text-center py-8 text-gray-500">
+      <i class="pi pi-list text-3xl mb-2 block"></i>
+      <p>No hay unidades vehiculares registradas</p>
+    </div>
+    }
+  </div>
+</p-card>
+} @else {
+<p-card class="shadow-lg">
+  <ng-template #title>
+    <div class="flex items-center gap-3">
+      <i class="pi pi-car text-2xl text-blue-600"></i>
+      <h2 class="text-2xl font-bold text-gray-800">Cargando Detalles...</h2>
+    </div>
+  </ng-template>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="bg-gray-50 p-4 rounded-lg">
+      <p-skeleton width="100%" height="20px" class="mb-2"></p-skeleton>
+      <p-skeleton width="80%" height="20px" class="mb-2"></p-skeleton>
+      <p-skeleton width="60%" height="20px"></p-skeleton>
+    </div>
+    <div class="bg-blue-50 p-4 rounded-lg">
+      <p-skeleton width="100%" height="20px" class="mb-2"></p-skeleton>
+      <p-skeleton width="80%" height="20px" class="mb-2"></p-skeleton>
+      <p-skeleton width="60%" height="20px"></p-skeleton>
+    </div>
+    <div class="bg-green-50 p-4 rounded-lg">
+      <p-skeleton width="100%" height="20px" class="mb-2"></p-skeleton>
+      <p-skeleton width="80%" height="20px" class="mb-2"></p-skeleton>
+      <p-skeleton width="60%" height="20px" class="mb-2"></p-skeleton>
+      <p-skeleton width="70%" height="20px"></p-skeleton>
+    </div>
+  </div>
+</p-card>
+}

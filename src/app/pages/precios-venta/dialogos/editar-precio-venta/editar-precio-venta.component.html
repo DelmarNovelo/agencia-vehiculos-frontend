@@ -1,0 +1,23 @@
+@if (!precioVenta.isLoading()) {
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div class="grid grid-cols-1 gap-4">
+    <p-iftalabel>
+      <p-inputnumber formControlName="precioBase" size="small" inputId="precioBase" fluid [maxFractionDigits]="2"
+        autocomplete="off" spellcheck="false" />
+      <label for="precioBase">Precio Base</label>
+      <app-form-control-error [showError]="isFormControlInvalid" errorMessage="El precio base es requerido" />
+    </p-iftalabel>
+
+    <p class="text-sm italic font-medium">
+      Vigente desde: {{ precioVenta.value()?.vigenteDesde | date: 'mediumDate' }}
+    </p>
+
+    <div class="flex justify-end mt-4">
+      <p-button label="Actualizar Precio de Venta" icon="pi pi-check" size="small" type="submit"
+        [disabled]="runningTask()" />
+    </div>
+  </div>
+</form>
+} @else {
+<app-loading />
+}
