@@ -22,7 +22,7 @@ export class AuthService {
     return this.http.post(url, loginDto)
       .pipe(map((res: any) => {
         localStorage.setItem('token', res.token);
-        this.storageService.setItem('user', res.payload);
+        localStorage.setItem('usuario', JSON.stringify(res.usuario));
       }));
   }
 

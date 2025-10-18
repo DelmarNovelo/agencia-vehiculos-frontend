@@ -63,6 +63,7 @@ export default class NuevaCompraComponent {
   private vehiculoService = inject(VehiculoService);
   private metodoPagoService = inject(MetodoPagoService);
 
+  usuarioNombre = JSON.parse(localStorage.getItem('usuario') as string).nombreCompleto;
   proveedores = signal<ProveedorAutocomplete[]>([]);
   proveedorSeleccionado = signal<ProveedorAutocomplete | null>(null);
 
